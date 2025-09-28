@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детский клуб астрономов "Альфа Центавра"</title>
+    <style>
+        /* Общие стили */
+        :root {
+            --primary-color: #0a192f; /* Темно-синий */
+            --secondary-color: #172a45; /* Чуть светлее синий */
+            --accent-color: #64ffda; /* Бирюзовый акцент */
+            --text-color: #ccd6f6; /* Светлый текст */
+            --light-text-color: #8892b0; /* Более темный текст */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Навигационное меню */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(10, 25, 47, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: top 0.3s;
+        }
+
+        .nav-logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Стили для мобильного меню */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            margin: 4px 0;
+            transition: 0.4s;
+        }
+
+        /* Главный раздел */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 0 20px;
+            background: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80') no-repeat center center/cover;
+            position: relative;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.6);
+        }
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+        }
+
+        .cta-button {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(100, 255, 218, 0.2);
+        }
+
+        /* Разделы */
+        section {
+            padding: 100px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--accent-color);
+        }
+
+        /* Раздел "О клубе" */
+        #about {
+            background: url('https://images.unsplash.com/photo-1446776811953-b23d579212de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80') no-repeat center center/cover;
+            position: relative;
+        }
+
+        /* Раздел "Лекции" */
+        #lectures {
+            background: url('https://images.unsplash.com/photo-1506443432602-ac2fcd6f54e0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+            position: relative;
+        }
+
+        /* Раздел "Контакты" */
+        #contact {
+             background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1853&q=80') no-repeat center center/cover;
+             position: relative;
+        }
+
+        .section-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 25, 47, 0.8);
+            z-index: 1;
+        }
+        
+        .section-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+
+        /* Карточки лекций */
+        .lecture-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            overflow: hidden;
+            width: 280px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-image-1 {
+            background-image: url('https://images.unsplash.com/photo-1447433589675-4aaa569f3e05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+        }
+
+        .card-image-2 {
+            background-image: url('https://images.unsplash.com/photo-1614726365953-5757a627a6f9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80');
+        }
+
+        .card-image-3 {
+            background-image: url('https://images.unsplash.com/photo-1543722530-534b47627343?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+
+        /* Раздел контактов */
+        .contact-info {
+            display: flex;
+            justify-content: space-around;
+            text-align: left;
+            flex-wrap: wrap;
+        }
+
+        .contact-info div {
+            margin: 10px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: var(--secondary-color);
+                position: absolute;
+                top: 60px;
+                left: 0;
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Навигационное меню -->
+    <nav class="navbar">
+        <div class="nav-logo">Альфа Центавра</div>
+        <ul class="nav-links">
+            <li><a href="#about">О клубе</a></li>
+            <li><a href="#lectures">Лекции</a></li>
+            <li><a href="#contact">Контакты</a></li>
+        </ul>
+        <div class="hamburger">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </nav>
+
+    <!-- Главный раздел -->
+    <header class="hero" id="home">
+        <div class="hero-content">
+            <h1>Откройте Вселенную Вместе с Нами</h1>
+            <p>Присоединяйтесь к нашему клубу юных астрономов и начните свое космическое путешествие!</p>
+            <a href="#contact" class="cta-button">Записаться</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Раздел "О клубе" -->
+        <section id="about">
+            <div class="section-overlay"></div>
+            <div class="section-content">
+                <h2 class="section-title">О Нашем Клубе</h2>
+                <p>Клуб "Альфа Центавра" был основан группой энтузиастов-астрономов с целью поделиться своей страстью к космосу с подрастающим поколением. Мы верим, что изучение звезд и галактик развивает любопытство, воображение и научное мышление. Наша миссия — сделать астрономию доступной, увлекательной и вдохновляющей для каждого ребенка.</p>
+            </div>
+        </section>
+
+        <!-- Раздел с лекциями -->
+        <section id="lectures">
+            <div class="section-overlay"></div>
+            <div class="section-content">
+                <h2 class="section-title">Предстоящие Лекции</h2>
+                <div class="lecture-cards">
+                    <!-- Карточка 1 -->
+                    <div class="card">
+                        <div class="card-image card-image-1"></div>
+                        <div class="card-content">
+                            <h3>Путешествие по Солнечной системе</h3>
+                            <p>Отправляемся в виртуальный тур по планетам, лунам и астероидам нашей звездной системы.</p>
+                        </div>
+                    </div>
+                    <!-- Карточка 2 -->
+                    <div class="card">
+                        <div class="card-image card-image-2"></div>
+                        <div class="card-content">
+                            <h3>Тайны черных дыр</h3>
+                            <p>Что такое черные дыры? Как они образуются и что произойдет, если попасть внутрь?</p>
+                        </div>
+                    </div>
+                    <!-- Карточка 3 -->
+                    <div class="card">
+                        <div class="card-image card-image-3"></div>
+                        <div class="card-content">
+                            <h3>Звезды и созвездия</h3>
+                            <p>Учимся находить на ночном небе самые известные созвездия и узнаем жизненный цикл звезд.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Раздел контактов -->
+        <section id="contact">
+            <div class="section-overlay"></div>
+            <div class="section-content">
+                <h2 class="section-title">Свяжитесь с Нами</h2>
+                <div class="contact-info">
+                    <div>
+                        <h3>Местоположение</h3>
+                        <p>Планетарий, ул. Космическая, 1</p>
+                    </div>
+                    <div>
+                        <h3>Часы работы</h3>
+                        <p>Суббота и Воскресенье</p>
+                        <p>12:00 - 16:00</p>
+                    </div>
+                     <div>
+                        <h3>Email</h3>
+                        <p>info@alphacentauri.club</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    </script>
+
+</body>
+</html>

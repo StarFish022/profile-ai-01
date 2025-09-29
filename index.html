@@ -5,381 +5,404 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Детский клуб астрономов "Альфа Центавра"</title>
     <style>
-        /* --- Глобальные стили и переменные --- */
-        :root {
-            --primary-color: #0d1b2a; /* Глубокий синий космос */
-            --secondary-color: #1b263b; /* Темно-синий */
-            --accent-color: #415a77; /* Серо-синий */
-            --text-color: #e0e1dd; /* Светло-серый/белый */
-            --highlight-color: #00aaff; /* Ярко-голубой для акцентов */
-        }
-
-        html {
-            scroll-behavior: smooth;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Arial', sans-serif;
-            margin: 0;
-            background-color: var(--primary-color);
-            color: var(--text-color);
             line-height: 1.6;
+            color: #ffffff;
+            scroll-behavior: smooth;
+            background-color: #001f3f; /* Тёмно-синий фон по умолчанию */
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        section {
-            padding: 80px 20px;
-            border-bottom: 1px solid var(--accent-color);
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* Эффект параллакса */
-            position: relative;
-        }
-        
-        /* Затемнение для фона секций для лучшей читаемости текста */
-        section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(13, 27, 42, 0.7);
-            z-index: 1;
-        }
-        
-        section > * {
-            position: relative;
-            z-index: 2;
-        }
-
-        h1, h2, h3 {
-            text-align: center;
-            margin-bottom: 40px;
-            font-weight: 300;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        h2 {
-           font-size: 2.5em;
-        }
-
-
-        /* --- Навигационное меню --- */
-        header {
-            background-color: rgba(27, 38, 59, 0.9);
-            width: 100%;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-
+        /* Навигационное меню */
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 31, 63, 0.9); /* Полупрозрачный тёмно-синий */
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: background-color 0.3s ease;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--highlight-color);
-            text-decoration: none;
-        }
-
-        .nav-links {
+        nav ul {
             list-style: none;
             display: flex;
-            margin: 0;
-            padding: 0;
+            justify-content: center;
+            align-items: center;
         }
 
-        .nav-links li {
-            margin-left: 30px;
+        nav ul li {
+            margin: 0 1.5rem;
         }
 
-        .nav-links a {
-            color: var(--text-color);
+        nav ul li a {
+            color: #ffffff;
             text-decoration: none;
-            font-size: 1rem;
-            transition: color 0.3s ease;
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
-        .nav-links a:hover {
-            color: var(--highlight-color);
+        nav ul li a:hover {
+            color: #7FDBFF; /* Светло-синий при наведении */
+            transform: scale(1.1);
         }
 
-        /* --- Главный раздел (Hero) --- */
+        /* Общий стиль для секций с параллаксом */
+        .section {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Эффект параллакса: фон фиксируется и создаёт иллюзию движения */
+            overflow: hidden; /* Чтобы избежать проблем с fixed на мобильных */
+        }
+
+        /* Главный раздел (Hero) */
         #hero {
+            height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); /* Галактика */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            text-align: center;
-            background-image: url('https://images.pexels.com/photos/1169754/pexels-photo-1169754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-        }
-
-        .hero-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-        }
-
-        .hero-content p {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            max-width: 600px;
-        }
-
-        .cta-button {
-            background-color: var(--highlight-color);
-            color: #fff;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 1.1rem;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.4);
-        }
-
-        .cta-button:hover {
-            background-color: #0088cc;
-            transform: translateY(-3px);
-        }
-
-        /* --- Раздел "О клубе" --- */
-        #about {
-            background-color: var(--secondary-color);
-            background-image: url('https://images.pexels.com/photos/998641/pexels-photo-998641.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-        }
-
-        .about-content {
-            max-width: 800px;
-            margin: 0 auto;
             text-align: center;
         }
-        
-        .about-content p {
-            font-size: 1.1rem;
-        }
 
-        /* --- Раздел лекций --- */
-        #lectures {
-             background-image: url('https://images.pexels.com/photos/1252890/pexels-photo-1252890.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-        }
-        .lecture-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .lecture-card {
-            background-color: var(--secondary-color);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            
-            height: 250px;
-            display: flex;
-            align-items: flex-end;
-            padding: 20px;
-            position: relative;
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .lecture-card::before {
-             content: '';
+        #hero::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to top, rgba(13, 27, 42, 0.9) 20%, rgba(0,0,0,0) 80%);
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 31, 63, 0.6); /* Оверлей для читаемости */
+        }
+
+        #hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        #hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .cta-button {
+            background-color: #0074D9; /* Синий */
+            color: #ffffff;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-button:hover {
+            background-color: #7FDBFF;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Раздел "О клубе" */
+        #about {
+            padding: 5rem 2rem;
+            background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); /* Туманность */
+            text-align: center;
+        }
+
+        #about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 31, 63, 0.7); /* Оверлей */
+        }
+
+        #about .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
             z-index: 1;
         }
 
+        #about h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        #about p {
+            font-size: 1.2rem;
+        }
+
+        /* Раздел лекций */
+        #lectures {
+            padding: 5rem 2rem;
+            background-image: url('https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80'); /* Созвездия/звёздное небо */
+            text-align: center;
+        }
+
+        #lectures::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 31, 63, 0.7); /* Оверлей */
+        }
+
+        #lectures .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        #lectures h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .lectures-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .lecture-card {
+            background-size: cover;
+            background-position: center;
+            height: 250px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .lecture-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 31, 63, 0.8); /* Оверлей для карточек */
+            border-radius: 10px;
+        }
 
         .lecture-card:hover {
             transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 170, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 116, 217, 0.5);
         }
 
-        .lecture-card h3 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: #fff;
-            text-align: left;
+        .lecture-card span {
             position: relative;
-            z-index: 2;
+            z-index: 1;
         }
-        
-        /* --- Индивидуальные фоны для карточек --- */
-        .card-1 { background-image: url('https://images.pexels.com/photos/2156/sky-earth-space-working.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); }
-        .card-2 { background-image: url('https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); }
-        .card-3 { background-image: url('https://images.pexels.com/photos/1274260/pexels-photo-1274260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); }
-        .card-4 { background-image: url('https://images.pexels.com/photos/110854/pexels-photo-110854.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); }
-        .card-5 { background-image: url('https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); }
-        .card-6 { background-image: url('https://images.pexels.com/photos/816608/pexels-photo-816608.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); }
 
+        /* Карточки с разными фонами */
+        #card1 {
+            background-image: url('https://images.unsplash.com/photo-1533322378353-e8c3d0a5caaf?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); /* Планета */
+        }
 
-        /* --- Раздел контактов --- */
+        #card2 {
+            background-image: url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); /* Галактика */
+        }
+
+        #card3 {
+            background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); /* Туманность/чёрная дыра */
+        }
+
+        #card4 {
+            background-image: url('https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80'); /* Звёздное небо */
+        }
+
+        #card5 {
+            background-image: url('https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); /* Космос с планетами */
+        }
+
+        #card6 {
+            background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); /* Телескоп/наблюдение */
+        }
+
+        /* Раздел контактов */
         #contact {
-            background-color: var(--secondary-color);
+            padding: 5rem 2rem;
+            background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); /* Туманность */
             text-align: center;
-            background-image: url('https://images.pexels.com/photos/39561/solar-flare-sun-eruption-energy-39561.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
         }
 
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            flex-wrap: wrap;
+        #contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 31, 63, 0.7); /* Оверлей */
         }
 
-        .contact-item {
-            font-size: 1.1rem;
+        #contact .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
-        .contact-item h3 {
-            color: var(--highlight-color);
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-        
-        .contact-item p {
-            margin: 5px 0;
+        #contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
         }
 
-        /* --- Подвал --- */
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: var(--primary-color);
-            border-top: 1px solid var(--accent-color);
+        #contact p {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
         }
 
-        /* --- Адаптивность для мобильных устройств --- */
+        /* Адаптивность */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none; /* Скрываем меню на мобильных */
-                /* В реальном проекте здесь будет JS для "бургера" */
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
             }
 
-            .hero-content h1 {
-                font-size: 2.5rem;
+            nav ul li {
+                margin: 0;
             }
-            
-            h2 {
+
+            #hero h1 {
                 font-size: 2rem;
             }
 
-            section {
-                padding: 60px 20px;
+            #hero p {
+                font-size: 1.2rem;
             }
-            
-            .contact-info {
-                flex-direction: column;
-                gap: 30px;
+
+            .lectures-grid {
+                grid-template-columns: 1fr;
             }
+
+            #about, #lectures, #contact {
+                padding: 3rem 1rem;
+            }
+
+            /* Отключаем fixed attachment на мобильных для лучшей производительности */
+            .section {
+                background-attachment: scroll;
+            }
+        }
+
+        /* Дополнительная анимация для навбара при скролле */
+        body.scrolled nav {
+            background-color: rgba(0, 31, 63, 1);
         }
     </style>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="#hero">Главная</a></li>
+            <li><a href="#about">О клубе</a></li>
+            <li><a href="#lectures">Занятия</a></li>
+            <li><a href="#contact">Контакты</a></li>
+        </ul>
+    </nav>
 
-    <header>
-        <nav class="container">
-            <a href="#hero" class="logo">Альфа Центавра</a>
-            <ul class="nav-links">
-                <li><a href="#about">О клубе</a></li>
-                <li><a href="#lectures">Лекции</a></li>
-                <li><a href="#contact">Контакты</a></li>
-            </ul>
-        </nav>
-    </header>
+    <section id="hero" class="section">
+        <h1>Открой Вселенную с "Альфа Центавра"!</h1>
+        <p>Присоединяйся к приключениям среди звёзд для юных астрономов</p>
+        <a href="#lectures" class="cta-button">Записаться на занятие</a>
+    </section>
 
-    <main>
-        <!-- Главный раздел -->
-        <section id="hero">
-            <div class="hero-content container">
-                <h1>Откройте Вселенную Вместе с Нами!</h1>
-                <p>Присоединяйтесь к детскому клубу астрономов "Альфа Центавра" и отправляйтесь в увлекательное путешествие по звездам.</p>
-                <a href="#contact" class="cta-button">Записаться в клуб</a>
-            </div>
-        </section>
+    <section id="about" class="section">
+        <div class="container">
+            <h2>О клубе</h2>
+            <p>Детский клуб астрономов "Альфа Центавра" был основан в 2015 году энтузиастами астрономии, чтобы вдохновить детей на изучение тайн космоса. Мы проводим увлекательные занятия, где юные исследователи учатся наблюдать за звёздами, строить модели планет и понимать устройство Вселенной. Наш клуб — это сообщество мечтателей, которые мечтают стать первооткрывателями.</p>
+        </div>
+    </section>
 
-        <!-- О клубе -->
-        <section id="about">
-            <div class="about-content container">
-                <h2>Наша История</h2>
-                <p>"Альфа Центавра" был основан группой энтузиастов, мечтающих поделиться своей любовью к космосу с подрастающим поколением. С 2020 года мы открываем для детей тайны далеких галактик, учим находить созвездия на ночном небе и рассказываем о последних открытиях в астрономии. Наша миссия — зажечь искру любопытства и вдохновить будущих исследователей Вселенной.</p>
-            </div>
-        </section>
-
-        <!-- Лекции -->
-        <section id="lectures">
-            <div class="container">
-                <h2>Наши Лекции</h2>
-                <div class="lecture-grid">
-                    <div class="lecture-card card-1">
-                        <h3>Путешествие по Солнечной системе</h3>
-                    </div>
-                    <div class="lecture-card card-2">
-                        <h3>Жизнь и смерть звезд</h3>
-                    </div>
-                    <div class="lecture-card card-3">
-                        <h3>Тайны черных дыр</h3>
-                    </div>
-                    <div class="lecture-card card-4">
-                        <h3>Охотники за кометами</h3>
-                    </div>
-                    <div class="lecture-card card-5">
-                        <h3>Созвездия: карта ночного неба</h3>
-                    </div>
-                    <div class="lecture-card card-6">
-                        <h3>Далекие галактики и туманности</h3>
-                    </div>
+    <section id="lectures" class="section">
+        <div class="container">
+            <h2>Предварительный просмотр занятий</h2>
+            <div class="lectures-grid">
+                <div class="lecture-card" id="card1">
+                    <span>Планеты Солнечной системы</span>
+                </div>
+                <div class="lecture-card" id="card2">
+                    <span>Созвездия и звёздное небо</span>
+                </div>
+                <div class="lecture-card" id="card3">
+                    <span>Чёрные дыры и загадки космоса</span>
+                </div>
+                <div class="lecture-card" id="card4">
+                    <span>Галактики: от Млечного Пути до Андромеды</span>
+                </div>
+                <div class="lecture-card" id="card5">
+                    <span>Поиск жизни во Вселенной</span>
+                </div>
+                <div class="lecture-card" id="card6">
+                    <span>Телескопы и самостоятельные наблюдения</span>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Контакты -->
-        <section id="contact">
-            <div class="container">
-                <h2>Свяжитесь с нами</h2>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <h3>Местоположение</h3>
-                        <p>Планетарий, ул. Космонавтов, 1</p>
-                        <p>г. Звездный</p>
-                    </div>
-                    <div class="contact-item">
-                        <h3>Часы работы</h3>
-                        <p>Суббота: 12:00 - 15:00</p>
-                        <p>Воскресенье: 12:00 - 15:00</p>
-                    </div>
-                    <div class="contact-item">
-                        <h3>Телефон</h3>
-                        <p>+7 (123) 456-78-90</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+    <section id="contact" class="section">
+        <div class="container">
+            <h2>Контакты</h2>
+            <p>Адрес: ул. Звёздная, 42, г. Москва</p>
+            <p>Часы работы: Понедельник - Пятница, 16:00 - 20:00</p>
+            <p>Телефон: +7 (495) 123-45-67</p>
+            <p>Email: info@alpha-centauri.club</p>
+        </div>
+    </section>
 
-    <footer>
-        <p>&copy; 2025, Детский клуб астрономов "Альфа Центавра". Все права защищены.</p>
-    </footer>
+    <script>
+        // Плавная прокрутка для ссылок в нав
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
 
+        // Эффект скролла для навбара
+        window.addEventListener('scroll', () => {
+            document.body.classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
 </body>
 </html>
-
